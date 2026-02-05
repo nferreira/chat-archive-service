@@ -249,7 +249,7 @@ class TestAppRoutes:
 
     @pytest.mark.asyncio
     async def test_get_messages_by_day_route(self, test_session):
-        from datetime import date
+        from datetime import datetime, timezone
         app = App()
 
         async def override_get_session():
@@ -268,14 +268,14 @@ class TestAppRoutes:
                     "answer": "A",
                 },
             )
-            today = date.today().isoformat()
+            today = datetime.now(timezone.utc).date().isoformat()
             resp = await client.get(f"/api/v1/messages?day={today}")
             assert resp.status_code in [200, 204]
         app.fastapi.dependency_overrides.clear()
 
     @pytest.mark.asyncio
     async def test_get_messages_by_period_route(self, test_session):
-        from datetime import date
+        from datetime import datetime, timezone
         app = App()
 
         async def override_get_session():
@@ -294,14 +294,14 @@ class TestAppRoutes:
                     "answer": "A",
                 },
             )
-            today = date.today().isoformat()
+            today = datetime.now(timezone.utc).date().isoformat()
             resp = await client.get(f"/api/v1/messages?start={today}&end={today}")
             assert resp.status_code in [200, 204]
         app.fastapi.dependency_overrides.clear()
 
     @pytest.mark.asyncio
     async def test_get_messages_by_user_route(self, test_session):
-        from datetime import date
+        from datetime import datetime, timezone
         app = App()
 
         async def override_get_session():
@@ -320,7 +320,7 @@ class TestAppRoutes:
                     "answer": "A",
                 },
             )
-            today = date.today().isoformat()
+            today = datetime.now(timezone.utc).date().isoformat()
             resp = await client.get(f"/api/v1/users/u-user-test/messages?start={today}&end={today}")
             assert resp.status_code in [200, 204]
         app.fastapi.dependency_overrides.clear()

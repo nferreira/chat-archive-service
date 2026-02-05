@@ -92,7 +92,7 @@ class TestGetMessagesByUser:
                 "answer": "A1",
             },
         )
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         resp = await client.get(f"/api/v1/users/u-privacy/messages?start={today}&end={today}")
         assert resp.status_code == 200
         data = resp.json()
@@ -123,7 +123,7 @@ class TestGetMessagesByUser:
     async def test_returns_200_with_items(self, client):
         """Test user messages returns 200 when items exist."""
         uid = "u-user-200"
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         await client.post(
             "/api/v1/messages",
             json={
@@ -175,7 +175,7 @@ class TestGetMessagesByDay:
     async def test_day_returns_200_with_items(self, client):
         """Test day query returns 200 when items exist."""
         # Store a message for today
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         await client.post(
             "/api/v1/messages",
             json={
@@ -204,7 +204,7 @@ class TestGetMessagesByDay:
                 "answer": "A",
             },
         )
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         resp = await client.get(f"/api/v1/messages?day={today}")
         assert resp.status_code == 200
         for item in resp.json()["items"]:
@@ -231,7 +231,7 @@ class TestGetMessagesByPeriod:
     @pytest.mark.asyncio
     async def test_period_returns_200_with_items(self, client):
         """Test period query returns 200 when items exist."""
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         await client.post(
             "/api/v1/messages",
             json={
@@ -283,7 +283,7 @@ class TestDeleteUser:
             },
         )
         await client.delete(f"/api/v1/users/{uid}")
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         resp = await client.get(f"/api/v1/users/{uid}/messages?start={today}&end={today}")
         assert resp.status_code == 204
         assert resp.headers["X-Total-Count"] == "0"
@@ -303,7 +303,7 @@ class TestOrdering:
                     "answer": f"A{i}",
                 },
             )
-        today = date.today().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         resp = await client.get(f"/api/v1/users/{uid}/messages?start={today}&end={today}")
         items = resp.json()["items"]
         timestamps = [item["created_at"] for item in items]
@@ -343,7 +343,7 @@ class TestRoutesDirect:
         from chat_archive.infrastructure.db.repositories.message_repository_pg import PostgresMessageRepository
 
         repo = PostgresMessageRepository(test_session)
-        today = date.today()
+        today = datetime.now(timezone.utc).date()
 
         result = await get_messages(
             day=today,
@@ -364,7 +364,7 @@ class TestRoutesDirect:
         from chat_archive.infrastructure.db.repositories.message_repository_pg import PostgresMessageRepository
 
         repo = PostgresMessageRepository(test_session)
-        today = date.today()
+        today = datetime.now(timezone.utc).date()
 
         result = await get_messages(
             day=None,
@@ -386,7 +386,7 @@ class TestRoutesDirect:
 
         repo = PostgresMessageRepository(test_session)
         uc = GetMessagesByUserUseCase(repo)
-        today = date.today()
+        today = datetime.now(timezone.utc).date()
 
         result = await get_messages_by_user(
             user_id="u-direct-user",

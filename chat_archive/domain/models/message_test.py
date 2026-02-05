@@ -38,14 +38,14 @@ class TestMessage:
         assert isinstance(msg.id, uuid.UUID)
 
     def test_default_created_at_is_generated(self):
-        before = datetime.utcnow()
+        before = datetime.now(timezone.utc)
         msg = Message(
             user_id="user-1",
             name="Bob",
             question="Q",
             answer="A",
         )
-        after = datetime.utcnow()
+        after = datetime.now(timezone.utc)
 
         assert isinstance(msg.created_at, datetime)
         assert before <= msg.created_at <= after

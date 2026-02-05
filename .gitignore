@@ -12,6 +12,9 @@ wheels/
 # Environment (keep .env.example)
 .env
 
+# Local sqlite artifacts or scratch files
+file::memory:
+
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij+all,python,pycharm,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,intellij+all,python,pycharm,git
 
