@@ -70,6 +70,13 @@ Docker:
 - `make docker-run` (foreground)
 - `make up` / `make down`
 
+## Additional Docs
+
+See `docs/README.md` for extended documentation:
+- Docker details: `docs/docker.md`
+- Deployment notes: `docs/deploy.md`
+- OpenAPI/docs endpoints: `docs/openapi.md`
+
 ## API Overview
 
 Base path: `/api/v1`
